@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
 from rest_framework_simplejwt.views import TokenRefreshView
 from core.auth_views import GoogleLoginView
 
@@ -13,8 +12,6 @@ urlpatterns = [
     path('api/projects/', include('projects.urls')),
     path('api/leads/', include('leads.urls')),
     path('api/testimonials/', include('testimonials.urls')),
-    # Catch-all to serve index.html for React routing
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='frontend'),
 ]
 
 if settings.DEBUG:
