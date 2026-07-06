@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base resets ─────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans text-brand-darkGray bg-white;
+    font-size: 16px;
+  }
+
+  h1, h2, h3 {
+    @apply font-display text-brand-secondary;
+  }
+
+  a { @apply transition-colors duration-250; }
+
+  img { @apply block max-w-full; }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-brand-lightGray; }
+  ::-webkit-scrollbar-thumb { @apply bg-brand-primary rounded-full; }
+}
+
+/* ── Component utilities ─────────────────────────────────────── */
+@layer components {
+
+  /* Container */
+  .container-main {
+    @apply w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-brand-primary hover:bg-brand-primaryHov
+           text-white font-semibold text-sm
+           px-6 py-3 rounded-lg
+           transition-all duration-250
+           shadow-sm hover:shadow-md
+           active:scale-95;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           border-2 border-brand-primary text-brand-primary
+           hover:bg-brand-primary hover:text-white
+           font-semibold text-sm
+           px-6 py-3 rounded-lg
+           transition-all duration-250
+           active:scale-95;
+  }
+
+  .btn-white {
+    @apply inline-flex items-center justify-center gap-2
+           bg-white text-brand-primary
+           hover:bg-brand-cream
+           font-semibold text-sm
+           px-6 py-3 rounded-lg
+           transition-all duration-250
+           shadow-sm;
+  }
+
+  /* Section heading */
+  .section-title {
+    @apply font-display text-3xl md:text-4xl font-bold text-brand-secondary
+           leading-tight;
+  }
+
+  .section-subtitle {
+    @apply text-brand-midGray text-base md:text-lg leading-relaxed mt-3;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl overflow-hidden shadow-card
+           hover:shadow-card-hov transition-all duration-350
+           hover:-translate-y-1;
+  }
+
+  /* Image overlay gradient */
+  .img-overlay {
+    @apply absolute inset-0 bg-gradient-dark;
+  }
+
+  /* Tag / Badge */
+  .badge {
+    @apply inline-block text-xs font-semibold px-3 py-1
+           rounded-full bg-brand-primary/10 text-brand-primary;
+  }
+
+  /* Nav link */
+  .nav-link {
+    @apply text-brand-darkGray hover:text-brand-primary
+           font-medium text-sm transition-colors duration-200
+           relative after:absolute after:bottom-0 after:left-0
+           after:w-0 after:h-0.5 after:bg-brand-primary
+           after:transition-all after:duration-250
+           hover:after:w-full;
+  }
+
+  /* Input */
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl border border-brand-border
+           text-brand-darkGray placeholder:text-brand-midGray
+           focus:outline-none focus:ring-2 focus:ring-brand-primary/30
+           focus:border-brand-primary
+           transition-all duration-200 bg-white;
+  }
+
+  /* Section padding */
+  .section-pad {
+    @apply py-16 md:py-24;
+  }
+}
+
+/* ── Swiper overrides ─────────────────────────────────────────── */
+.swiper-pagination-bullet {
+  background: #E8550A !important;
+  opacity: 0.4;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  width: 24px !important;
+  border-radius: 4px !important;
+  transition: width 0.3s ease;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.1rem !important;
+  font-weight: 900 !important;
+  color: #1C1C2E;
+}
