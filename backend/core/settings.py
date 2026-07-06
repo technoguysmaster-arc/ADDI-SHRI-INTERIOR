@@ -68,12 +68,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database — SQLite for local dev
+# Database — SQLite local dev with Render.com PostgreSQL environment support
+import dj_database_url
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600
+    )
 }
 
 # Password validation
@@ -115,10 +116,21 @@ REST_FRAMEWORK = {
 }
 
 # CORS
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:5173,http://localhost:3000'
-).split(',')
+cors_allowed = os.environ.get('CORS_ALLOWED_ORIGINS')
+frontend_url = os.environ.get('FRONTEND_URL')
+
+if cors_allowed:
+    CORS_ALLOWED_ORIGINS = cors_allowed.split(',')
+elif frontend_url:
+    # Ensure no trailing slash for Django CORS configuration
+    CORS_ALLOWED_ORIGINS = [frontend_url.rstrip('/')]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'http://127.0.0.1:8000',
+        'http://localhost:8000',
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
