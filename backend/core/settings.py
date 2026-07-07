@@ -9,7 +9,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-changeme')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Pull from env var if set, otherwise fall back to a safe default that
+# covers Render, Vercel and local development.
+_allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = _allowed_hosts_env.split(',') if _allowed_hosts_env else [
+    '.onrender.com',   # covers all *.onrender.com sub-domains
+    '.vercel.app',     # covers all *.vercel.app sub-domains
+    'localhost',
+    '127.0.0.1',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -113,6 +121,13 @@ REST_FRAMEWORK = {
 }
 
 # CORS
+# ── Demo / staging phase ──────────────────────────────────────────────────
+# CORS_ALLOW_ALL_ORIGINS skips the origin whitelist entirely, which is safe
+# while the app is not yet handling sensitive authenticated data in production.
+# Replace with a strict CORS_ALLOWED_ORIGINS list before going fully live.
+CORS_ALLOW_ALL_ORIGINS = True
+# ─────────────────────────────────────────────────────────────────────────
+
 cors_allowed = os.environ.get('CORS_ALLOWED_ORIGINS')
 frontend_url = os.environ.get('FRONTEND_URL')
 
